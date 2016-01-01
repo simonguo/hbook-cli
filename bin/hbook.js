@@ -14,14 +14,14 @@ var commands = require("../lib/commands");
 
 function runPromise(p) {
     return p
-    .then(function() {
-        process.exit(0);
-    }, function(err) {
-        console.log("");
-        console.log(color.red(err.toString()));
-        if (program.debug || process.env.DEBUG) console.log(err.stack || "");
-        process.exit(1);
-    });
+        .then(function() {
+            process.exit(0);
+        }, function(err) {
+            console.log("");
+            console.log(color.red(err.toString()));
+            if (program.debug || process.env.DEBUG) console.log(err.stack || "");
+            process.exit(1);
+        });
 }
 
 
@@ -30,24 +30,24 @@ config.init();
 
 program
     .version(pkg.version)
-    .option('-v, --gitbook [version]', 'specify GitBook version to use')
+    .option('-v, --hbook [version]', 'specify HBook version to use')
     .option('-d, --debug', 'enable verbose error');
 
 
 program
     .command('versions')
     .description('list installed versions')
-    .action(function(){
+    .action(function() {
         var _versions = versions.list();
 
         if (_versions.length > 0) {
-            console.log('GitBook Versions Installed:');
+            console.log('HBook Versions Installed:');
             console.log('');
-            _.each(_versions,function(v) {
+            _.each(_versions, function(v) {
                 var text = v.tag;
-                if (v.link) text = text + ' (-> ' + v.link+' = '+v.version+')';
+                if (v.link) text = text + ' (-> ' + v.link + ' = ' + v.version + ')';
 
-                console.log('   ', v.latest? '*' : ' ', text);
+                console.log('   ', v.latest ? '*' : ' ', text);
             });
             console.log('');
         } else {
@@ -59,11 +59,11 @@ program
 program
     .command('versions:print')
     .description('print current version to use in the current directory')
-    .action(function(){
+    .action(function() {
         runPromise(
-            versions.current(program.gitbook)
+            versions.current(program.hbook)
             .then(function(v) {
-                console.log("GitBook version is", v.tag, (v.tag != v.version? '('+v.version+')' : ''));
+                console.log("HBook version is", v.tag, (v.tag != v.version ? '(' + v.version + ')' : ''));
             })
         );
     });
@@ -71,11 +71,11 @@ program
 program
     .command('versions:available')
     .description('list available versions on NPM')
-    .action(function(){
+    .action(function() {
         runPromise(
             versions.available()
             .then(function(available) {
-                console.log('Available GitBook Versions:');
+                console.log('Available HBook Versions:');
                 console.log('');
                 console.log('    ', available.versions.join(", "));
                 console.log('');
@@ -92,14 +92,14 @@ program
 program
     .command('versions:install [version]')
     .description('force install a specific version of gitbook')
-    .action(function(version){
+    .action(function(version) {
         version = version || "*";
 
         runPromise(
             versions.install(version)
             .then(function(installedVersion) {
                 console.log("");
-                console.log(color.green("GitBook "+installedVersion+" has been installed"));
+                console.log(color.green("GitBook " + installedVersion + " has been installed"));
             })
         );
     });
@@ -115,7 +115,7 @@ program
             versions.link(version, folder)
             .then(function() {
                 console.log("");
-                console.log(color.green("GitBook "+version+" point to "+folder));
+                console.log(color.green("HBook " + version + " point to " + folder));
             })
         );
     });
@@ -123,12 +123,12 @@ program
 program
     .command('versions:uninstall [version]')
     .description('uninstall a specific version of gitbook')
-    .action(function(version){
+    .action(function(version) {
         runPromise(
             versions.uninstall(version)
             .then(function() {
                 console.log("");
-                console.log(color.green("GitBook "+version+" has been uninstalled"));
+                console.log(color.green("GitBook " + version + " has been uninstalled"));
             })
         );
     });
@@ -136,7 +136,7 @@ program
 program
     .command('versions:update [tag]')
     .description('update to the latest version of gitbook')
-    .action(function(tag){
+    .action(function(tag) {
         runPromise(
             versions.update(tag)
             .then(function(version) {
@@ -144,7 +144,7 @@ program
                     console.log("No update found!");
                 } else {
                     console.log("");
-                    console.log(color.green("GitBook has been updated to "+version));
+                    console.log(color.green("GitBook has been updated to " + version));
                 }
             })
         );
@@ -153,9 +153,9 @@ program
 program
     .command('help')
     .description('list commands for a specific version of gitbook')
-    .action(function(){
+    .action(function() {
         runPromise(
-            versions.get(program.gitbook)
+            versions.get(program.hbook)
             .get("commands")
             .then(commands.help)
         );
@@ -164,12 +164,12 @@ program
 program
     .command('*')
     .description('run a command with a specific gitbook version')
-    .action(function(commandName){
+    .action(function(commandName) {
         var args = parsedArgv._.slice(1);
         var kwargs = _.omit(parsedArgv, '$0', '_');
 
         runPromise(
-            versions.get(program.gitbook)
+            versions.get(program.hbook)
             .then(function(gitbook) {
                 return commands.exec(gitbook.commands, commandName, args, kwargs);
             })
@@ -177,6 +177,6 @@ program
     });
 
 // Parse and fallback to help if no args
-if(_.isEmpty(program.parse(process.argv).args) && process.argv.length === 2) {
+if (_.isEmpty(program.parse(process.argv).args) && process.argv.length === 2) {
     program.help();
 }

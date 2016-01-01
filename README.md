@@ -1,104 +1,55 @@
 # gitbook-cli
 
-[![NPM version](https://badge.fury.io/js/gitbook-cli.svg)](http://badge.fury.io/js/gitbook-cli)
-[![Linux Build Status](https://travis-ci.org/GitbookIO/gitbook-cli.png?branch=master)](https://travis-ci.org/GitbookIO/gitbook-cli)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/gddbj0602joc4wah?svg=true)](https://ci.appveyor.com/project/GitBook/gitbook-cli)
 
-> The GitBook command line interface.
 
-Install this globally and you'll have access to the gitbook command anywhere on your system.
+## 安装
 
 ```
-$ npm install -g gitbook-cli
+$ npm install hbook-cli -g
 ```
 
-**Note:** The job of the gitbook command is to load and run the version of GitBook you have specified in your book (or the latest one), irrespective of its version. The GitBook CLI only support versions `>=2.0.0` of GitBook.
-
-## How to install it?
+初始化
 
 ```
-$ npm install -g gitbook-cli
+$ hbook init
 ```
 
-## How to use it?
-
-#### Build and Serve
-
-Build a book in the curent directory using:
+## 编译，生成电子书
 
 ```
-$ gitbook build
+$ hbook build
 ```
 
-Build a book in another directory:
+## 参数及模板设置
+修改 `book.json`:
 
-```
-$ gitbook build ./other_folder
-```
+```json
+{
+    "variables": {
+        "title": "前端工程师文档",
+        "theme": "theme-gray",
+        "copyright": "Copyright 2015 f2edocs.com"
+    },
+    "collapsible_menu":true,
+    "level_number":false,
+    "links": {
+        "gitbook": false,
+        "sharing": {
+            "all":false,
+            "vk": false,
+            "facebook": true,
+            "twitter": true,
+            "google": true,
+            "weibo": true
+        }
 
-Build and serve the book:
-
-```
-$ gitbook serve ./
-```
-
-List all available commands using:
-```
-$ gitbook help
-```
-
-#### Specify a specific version
-
-By default, GitBook CLI will read the gitbook version to use from the book configuration, but you can force a specific version using `--gitbook` option:
-
-```
-$ gitbook build ./mybook --gitbook=2.0.1
-```
-
-and list available commands in this version using:
-
-```
-$ gitbook help --gitbook=2.0.1
+    }
+}
 ```
 
-#### Manage versions
-
-List installed versions:
-
-```
-$ gitbook versions
-```
-
-List available versions:
-
-```
-$ gitbook versions:available
-```
-
-Install a specific version:
-
-```
-$ gitbook versions:install 2.1.0
-
-# or a pre-release
-
-$ gitbook versions:install beta
-```
-
-Update to the latest version
-
-```
-$ gitbook versions:update
-```
-
-Uninstall a specific version
-
-```
-$ gitbook versions:uninstall 2.0.1
-```
-
-Use a local folder as a GitBook version (for developement)
-
-```
-$ gitbook versions:link ./mygitbook
-```
+- variables-title: 配置文档标题，显示在页面顶部;
+- variables-theme: 模板颜色,当前支持:theme-green,theme-purple,theme-orange,theme-deepblue;
+- variables-copyright: 配置版权信息，显示在页面底部;
+- collapsible_menu: 使用折叠菜单;
+- level_number: 使用菜单结构序号;
+- links: 开启一些连接.
