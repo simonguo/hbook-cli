@@ -1,12 +1,13 @@
 var path = require('path');
 var should = require('should');
-
 var versions = require('../lib/versions');
 
+var VERSION = '1.2.27';
 
 
 describe('Versions', function() {
-    this.timeout(50000);
+    this.timeout(500000);
+
 
     describe('versions.available()', function() {
         var result;
@@ -29,11 +30,12 @@ describe('Versions', function() {
         });
     });
 
+
     describe('versions.install()', function() {
         var result;
 
         before(function() {
-            return versions.install('2.0.0')
+            return versions.install(VERSION)
             .then(function(version) {
                 result = version;
             });
@@ -41,7 +43,7 @@ describe('Versions', function() {
 
         it('should correctly return the installed version', function() {
             result.should.be.a.String();
-            result.should.equal('2.0.0');
+            result.should.equal(VERSION);
         });
     });
 
@@ -50,7 +52,7 @@ describe('Versions', function() {
             return versions.current()
             .then(function(v) {
                 v.should.have.properties('version', 'path');
-                v.version.should.equal('2.0.0');
+                v.version.should.equal(VERSION);
             });
         });
     });
@@ -66,12 +68,12 @@ describe('Versions', function() {
             result.should.be.an.Array();
             result.should.have.lengthOf(1);
             result[0].should.have.properties('version', 'path');
-            result[0].version.should.equal('2.0.0');
+            result[0].version.should.equal(VERSION);
         });
     });
 
     describe('versions.link()', function() {
-        var localGitbook = path.resolve(__dirname, '../node_modules/gitbook');
+        var localGitbook = path.resolve(__dirname, '../node_modules/hbook');
 
         before(function() {
             return versions.link('latest', localGitbook);
@@ -93,8 +95,9 @@ describe('Versions', function() {
         });
     });
 
+
     describe('versions.get()', function() {
-        it('should correctly return gitbook instance', function() {
+        it('should correctly return hbbook instance', function() {
             return versions.get()
             .then(function(gitbook) {
                 gitbook.should.be.an.Object();
@@ -106,7 +109,7 @@ describe('Versions', function() {
 
     describe('versions.uninstall()', function() {
         it('should correctly remove a specific version', function() {
-            return versions.uninstall('2.0.0')
+            return versions.uninstall(VERSION)
             .then(function() {
                 var result = versions.list();
                 result.should.have.lengthOf(1);
@@ -121,4 +124,5 @@ describe('Versions', function() {
             });
         });
     });
+    */
 });

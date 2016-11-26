@@ -99,7 +99,7 @@ program
             versions.install(version)
             .then(function(installedVersion) {
                 console.log("");
-                console.log(color.green("GitBook " + installedVersion + " has been installed"));
+                console.log(color.green("HBook " + installedVersion + " has been installed"));
             })
         );
     });
@@ -128,7 +128,7 @@ program
             versions.uninstall(version)
             .then(function() {
                 console.log("");
-                console.log(color.green("GitBook " + version + " has been uninstalled"));
+                console.log(color.green("HBook " + version + " has been uninstalled"));
             })
         );
     });
@@ -144,7 +144,7 @@ program
                     console.log("No update found!");
                 } else {
                     console.log("");
-                    console.log(color.green("GitBook has been updated to " + version));
+                    console.log(color.green("HBook has been updated to " + version));
                 }
             })
         );
